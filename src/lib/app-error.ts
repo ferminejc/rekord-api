@@ -1,4 +1,5 @@
 import type { ContentfulStatusCode } from 'hono/utils/http-status';
+import type { ZodError } from 'zod';
 
 export type ErrorCode =
   | 'UNAUTHORIZED'
@@ -48,4 +49,19 @@ export class AppError extends Error {
       ? { code: this.code, message: this.message, fieldErrors: this.fieldErrors }
       : { code: this.code, message: this.message };
   }
+}
+
+export function fieldErrorsFromZod(error: ZodError): FieldError[] {
+  return error.issues.map((issue) => ({
+    field: issue.path.join('.'),
+    message: issue.message,
+  }));
+}
+
+export function validationErrorBody(error: ZodError): ErrorBody {
+  return {
+    code: 'VALIDATION_FAILED',
+    message: 'Validation failed',
+    fieldErrors: fieldErrorsFromZod(error),
+  };
 }

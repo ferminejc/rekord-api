@@ -1,6 +1,6 @@
 # rekord-api — Build Progress
 
-Current phase: **Bootstrap** (then 0 — Foundation)
+Current phase: **1 — Schema & seed** (0 — Foundation complete)
 (The agent breaks each phase into vertical slices at phase start and lists them here.)
 
 ## Bootstrap (session zero — /bootstrap)
@@ -10,11 +10,11 @@ Current phase: **Bootstrap** (then 0 — Foundation)
 - [x] Gates green (typecheck · lint · test · build)
 - [x] Scaffold committed separately from the spec kit
 
-## Phase 0 — Foundation
+## Phase 0 — Foundation ✅
 - [x] Slice 1 — Env validation (Zod: DATABASE_URL/JWT_SECRET/APP_ORIGINS/PROVIDERS), request-id + pino logging middleware, AppError + error-handler (AppError/ZodError/unknown → envelope) + 404 handler, envelope helper; health route wired through the stack — tested (typecheck/lint/test/build green)
-- [ ] Slice 2 — OpenAPI (zod-openapi) conversion of routes + Scalar UI at /docs + /openapi.json
-- [ ] Gates pass → commit (final phase-level check)
-Exit: health endpoint tested through full middleware stack.
+- [x] Slice 2 — Converted to `OpenAPIHono`; health route declared via `createRoute`/`app.openapi()` with a shared `envelopeSchema()` helper; `defaultHook` maps route validation failures to the standard error envelope; `/openapi.json` document + Scalar UI at `/docs` — tested (typecheck/lint/test/build green; verified against the compiled server too)
+- [x] Gates pass → commit (final phase-level check)
+Exit: health endpoint tested through full middleware stack. **Met.**
 
 ## Phase 1 — Schema & seed
 - [ ] (slices added at phase start)
