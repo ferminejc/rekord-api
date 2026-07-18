@@ -11,9 +11,9 @@ Current phase: **Bootstrap** (then 0 — Foundation)
 - [x] Scaffold committed separately from the spec kit
 
 ## Phase 0 — Foundation
-- [ ] Env validation (Zod) · request-id + pino logging · error handler · envelope/AppError
-- [ ] OpenAPI at /docs (Scalar), /openapi.json
-- [ ] Gates pass → commit
+- [x] Slice 1 — Env validation (Zod: DATABASE_URL/JWT_SECRET/APP_ORIGINS/PROVIDERS), request-id + pino logging middleware, AppError + error-handler (AppError/ZodError/unknown → envelope) + 404 handler, envelope helper; health route wired through the stack — tested (typecheck/lint/test/build green)
+- [ ] Slice 2 — OpenAPI (zod-openapi) conversion of routes + Scalar UI at /docs + /openapi.json
+- [ ] Gates pass → commit (final phase-level check)
 Exit: health endpoint tested through full middleware stack.
 
 ## Phase 1 — Schema & seed

@@ -1,8 +1,24 @@
 import { z } from 'zod';
 
+function csvList(fallback: string) {
+  return z
+    .string()
+    .default(fallback)
+    .transform((value) =>
+      value
+        .split(',')
+        .map((item) => item.trim())
+        .filter((item) => item.length > 0),
+    );
+}
+
 const EnvSchema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
   PORT: z.coerce.number().int().positive().default(3000),
+  DATABASE_URL: z.string().default('postgres://user:password@localhost:5432/rekord'),
+  JWT_SECRET: z.string().min(1).default('dev-insecure-secret-change-me'),
+  APP_ORIGINS: csvList('http://localhost:3000'),
+  PROVIDERS: csvList('fake'),
 });
 
 export type Env = z.infer<typeof EnvSchema>;

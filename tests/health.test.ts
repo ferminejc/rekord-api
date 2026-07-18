@@ -14,6 +14,7 @@ describe('GET /api/v1/health', () => {
     const res = await testApp.app.request('/api/v1/health');
 
     expect(res.status).toBe(200);
+    expect(res.headers.get('x-request-id')).toBeTruthy();
     await expect(res.json()).resolves.toEqual({ data: { status: 'ok' } });
   });
 });
