@@ -17,7 +17,8 @@ Current phase: **1 — Schema & seed** (0 — Foundation complete)
 Exit: health endpoint tested through full middleware stack. **Met.**
 
 ## Phase 1 — Schema & seed
-- [ ] (slices added at phase start)
+- [x] Slice 1 — All 16 Drizzle tables (`src/db/schema/*.ts`: enums, users/refresh_tokens, runners, organizers/api_keys, events/event_editions, race_results, claims/edit_requests, goals, integrations/import_candidates, uploads, audit_log, ph_locations), migration generated (`0000_fluffy_swarm.sql`), `db/client.ts` (Neon prod / PGlite dev-test, auto-migrate on PGlite boot), `tests/helpers/createTestApp` now runs real migrations, migration smoke tests (all tables queryable, FK+jsonb round trip, partial unique index on claims) — tested (typecheck/lint/test/build green); `db-diagram.drawio` updated to match
+- [ ] Slice 2 — ph_locations seed (bundled PSGC JSON) + full deterministic seed script (`db:seed`) producing the §8 dataset, row-count assertions in a test
 Exit: all tables migrated on PGlite; deterministic seed row counts asserted in a test.
 
 ## Phase 2 — Auth
