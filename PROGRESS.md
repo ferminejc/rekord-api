@@ -1,6 +1,6 @@
 # rekord-api — Build Progress
 
-Current phase: **1 — Schema & seed** (0 — Foundation complete)
+Current phase: **2 — Auth** (0 — Foundation and 1 — Schema & seed complete)
 (The agent breaks each phase into vertical slices at phase start and lists them here.)
 
 ## Bootstrap (session zero — /bootstrap)
@@ -16,10 +16,10 @@ Current phase: **1 — Schema & seed** (0 — Foundation complete)
 - [x] Gates pass → commit (final phase-level check)
 Exit: health endpoint tested through full middleware stack. **Met.**
 
-## Phase 1 — Schema & seed
+## Phase 1 — Schema & seed ✅
 - [x] Slice 1 — All 16 Drizzle tables (`src/db/schema/*.ts`: enums, users/refresh_tokens, runners, organizers/api_keys, events/event_editions, race_results, claims/edit_requests, goals, integrations/import_candidates, uploads, audit_log, ph_locations), migration generated (`0000_fluffy_swarm.sql`), `db/client.ts` (Neon prod / PGlite dev-test, auto-migrate on PGlite boot), `tests/helpers/createTestApp` now runs real migrations, migration smoke tests (all tables queryable, FK+jsonb round trip, partial unique index on claims) — tested (typecheck/lint/test/build green); `db-diagram.drawio` updated to match
-- [ ] Slice 2 — ph_locations seed (bundled PSGC JSON) + full deterministic seed script (`db:seed`) producing the §8 dataset, row-count assertions in a test
-Exit: all tables migrated on PGlite; deterministic seed row counts asserted in a test.
+- [x] Slice 2 — Bundled `ph_locations.json` (39 PH cities) + deterministic seeded PRNG (`db/seed/prng.ts`) + fixtures (Filipino/foreign runner names, clubs, 29 events across Luzon/Visayas/Mindanao) + full seed orchestration (`db/seed/run-seed.ts`, CLI entry `db/seed/seed.ts`) producing 65 runners, 29 events, 112 editions, 815 race results (≥800 verified, ~40% w/ splits, 1 disputed), 3 claims (1 approved + 2 pending), 1 integration + 4 import candidates, 1 organizer API key, and the 3 seeded role accounts (argon2id-hashed `Rekord123!`) — tested (row counts, determinism across two fresh runs, role-account login, partial-unique-index still enforced); verified via `npm run db:seed` directly too
+Exit: all tables migrated on PGlite; deterministic seed row counts asserted in a test. **Met.**
 
 ## Phase 2 — Auth
 - [ ] (slices added at phase start)
