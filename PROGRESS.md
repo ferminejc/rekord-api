@@ -22,7 +22,9 @@ Exit: health endpoint tested through full middleware stack. **Met.**
 Exit: all tables migrated on PGlite; deterministic seed row counts asserted in a test. **Met.**
 
 ## Phase 2 — Auth
-- [ ] (slices added at phase start)
+- [x] Slice 1 — `db` threaded through `createApp(db)`/`index.ts`/test harness (required param, no eager default-db construction on import); `lib/jwt.ts` (jose HS256 15-min access tokens), `lib/crypto.ts` (argon2id password hash/verify, opaque 32-byte refresh tokens, sha256 token hashing); `middleware/auth.ts` (`requireAuth`, bearer → `AppVariables.user`), `middleware/rbac.ts` (`requireRole`); `modules/auth/` (schemas/repo/service/routes) with `POST /auth/register` and `POST /auth/login` issuing access+refresh tokens — tested (typecheck/lint/test/build green; verified against the compiled server, including a real production-boot check for the JWT_SECRET guard). Adversarial review caught and fixed: insecure JWT_SECRET reaching production, a login timing side-channel, an unvalidated JWT role claim, and a register() race condition (concurrent duplicate emails)
+- [ ] Slice 2 — `POST /auth/refresh` (rotation: issue new + revoke old), `POST /auth/logout` (revoke), `POST /auth/forgot-password`, `POST /me/delete-request`
+- [ ] Slice 3 — `POST /auth/social` (Google/Apple provider ID token verification)
 Exit: role accounts authenticate; refresh rotation revokes old tokens (tested).
 
 ## Phase 3 — Public reads

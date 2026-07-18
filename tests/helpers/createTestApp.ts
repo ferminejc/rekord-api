@@ -13,7 +13,7 @@ export async function createTestApp(): Promise<TestApp> {
   await migratePgliteDb(db);
 
   return {
-    app: createApp(),
+    app: createApp(db),
     db,
     close: () => db.$client.close(),
   };

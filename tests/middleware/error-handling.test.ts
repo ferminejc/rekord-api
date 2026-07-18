@@ -1,10 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import { z } from 'zod';
 import { createApp } from '../../src/app.js';
+import { createPgliteDb } from '../../src/db/pglite.js';
 import { AppError } from '../../src/lib/app-error.js';
 
 function buildTestApp() {
-  const app = createApp();
+  const app = createApp(createPgliteDb());
 
   app.get('/test/app-error', () => {
     throw new AppError('CONFLICT', 'already exists');

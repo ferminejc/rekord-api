@@ -1,11 +1,12 @@
 import { createRoute, z } from '@hono/zod-openapi';
 import { describe, expect, it } from 'vitest';
 import { createApp } from '../src/app.js';
+import { createPgliteDb } from '../src/db/pglite.js';
 import { envelopeSchema } from '../src/lib/envelope.js';
 
 describe('OpenAPI infrastructure', () => {
   it('serves the generated OpenAPI document with the health route registered', async () => {
-    const app = createApp();
+    const app = createApp(createPgliteDb());
 
     const res = await app.request('/openapi.json');
 
@@ -20,8 +21,18 @@ describe('OpenAPI infrastructure', () => {
     expect(doc.paths).toHaveProperty('/api/v1/health');
   });
 
+  it('includes routes mounted from a module sub-router (auth)', async () => {
+    const app = createApp(createPgliteDb());
+
+    const res = await app.request('/openapi.json');
+    const doc = (await res.json()) as { paths: Record<string, unknown> };
+
+    expect(doc.paths).toHaveProperty('/api/v1/auth/register');
+    expect(doc.paths).toHaveProperty('/api/v1/auth/login');
+  });
+
   it('resolves servers.url + a documented path to a real, working route', async () => {
-    const app = createApp();
+    const app = createApp(createPgliteDb());
 
     const res = await app.request('/openapi.json');
     const doc = (await res.json()) as {
@@ -38,7 +49,7 @@ describe('OpenAPI infrastructure', () => {
   });
 
   it('serves the Scalar API reference UI at /docs', async () => {
-    const app = createApp();
+    const app = createApp(createPgliteDb());
 
     const res = await app.request('/docs');
 
@@ -47,7 +58,7 @@ describe('OpenAPI infrastructure', () => {
   });
 
   it('maps route validation failures to the standard error envelope via defaultHook', async () => {
-    const app = createApp();
+    const app = createApp(createPgliteDb());
     const testRoute = createRoute({
       method: 'get',
       path: '/test/openapi-validation',

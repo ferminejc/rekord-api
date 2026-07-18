@@ -1,6 +1,7 @@
 import { pgEnum } from 'drizzle-orm/pg-core';
 
 export const userRoleEnum = pgEnum('user_role', ['runner', 'organizer', 'admin']);
+export type UserRole = (typeof userRoleEnum.enumValues)[number];
 
 export const genderEnum = pgEnum('gender', ['male', 'female']);
 
