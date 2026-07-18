@@ -4,11 +4,11 @@ Current phase: **Bootstrap** (then 0 — Foundation)
 (The agent breaks each phase into vertical slices at phase start and lists them here.)
 
 ## Bootstrap (session zero — /bootstrap)
-- [ ] node 22 + npm verified (no database/Docker needed — zero-infrastructure mode)
-- [ ] Scaffold: package.json scripts, strict tsconfig, biome, drizzle.config, .env.example, src/ + tests/ skeleton
-- [ ] PGlite test harness + passing health test
-- [ ] Gates green (typecheck · lint · test · build)
-- [ ] Scaffold committed separately from the spec kit
+- [x] node 22 + npm verified (no database/Docker needed — zero-infrastructure mode)
+- [x] Scaffold: package.json scripts, strict tsconfig, biome, drizzle.config, .env.example, src/ + tests/ skeleton
+- [x] PGlite test harness + passing health test
+- [x] Gates green (typecheck · lint · test · build)
+- [x] Scaffold committed separately from the spec kit
 
 ## Phase 0 — Foundation
 - [ ] Env validation (Zod) · request-id + pino logging · error handler · envelope/AppError
